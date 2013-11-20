@@ -1,0 +1,5 @@
+name = Callington Mill
+description = Booking form
+core = 7.x
+
+scripts[] = callingtonmill.js

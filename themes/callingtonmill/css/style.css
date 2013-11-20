@@ -1,0 +1,466 @@
+body {
+  background: #f2f2f2; }
+
+.front #content {
+  min-height: 1050px; }
+
+#wrap {
+  width: 990px;
+  background: transparent url("../images/page.png") repeat-y;
+  margin: 0 auto;
+  padding: 0 9px;
+  /* remove 'auto' and the width to switch to a fluid width */ }
+  #wrap #page {
+    background: white url("../images/main-bg.png") 12px 230px no-repeat;
+    /* Layout rules. (Disclaimer: do not change if you're not sure you know what you're doing.) */
+    /* Layout Helpers */ }
+    #wrap #page #header {
+      height: 235px;
+      position: relative; }
+      #wrap #page #header #logo {
+        position: relative;
+        z-index: 5; }
+      #wrap #page #header #slideshow {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 3; }
+      #wrap #page #header #header-shadow {
+        position: absolute;
+        height: 10px;
+        background: url("../images/header-shadow.png");
+        bottom: 0;
+        left: 0;
+        right: 0; }
+    #wrap #page #main {
+      background: url("../images/footer-shadow.png") bottom left repeat-x; }
+    #wrap #page #content {
+      float: left;
+      width: 100%;
+      margin-right: -100%;
+      padding: 0; }
+      #wrap #page #content #content-inner {
+        padding: 60px 42px 20px 42px; }
+        #wrap #page #content #content-inner #content-header #edit {
+          float: right;
+          width: auto;
+          padding: 0.2em 1em; }
+        #wrap #page #content #content-inner .node {
+          overflow: auto; }
+    #wrap #page #sidebar {
+      float: right;
+      background: #f6f6f6;
+      border-radius: 15px 0 0 15px;
+      -moz-border-radius: 15px 0 0 15px;
+      padding: 20px;
+      margin: 61px 8px 10px 0;
+      width: 280px; }
+      #wrap #page #sidebar #focus {
+        background: white;
+        border: 1px solid #ededed;
+        border-radius: 15px;
+        padding: 6px;
+        color: #8c8c8c;
+        font-size: 1.2em;
+        letter-spacing: 0.04em;
+        margin: -10px -10px 0 -10px; }
+        #wrap #page #sidebar #focus .inner {
+          border: 1px dashed #cfcfcf;
+          border-radius: 10px;
+          padding: 15px; }
+          #wrap #page #sidebar #focus .inner .leading, #wrap #page #sidebar #focus .inner .sub {
+            display: block; }
+          #wrap #page #sidebar #focus .inner .leading {
+            font-family: "Times New Roman";
+            font-size: 1.8em;
+            text-align: center;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #cbcbcb; }
+            #wrap #page #sidebar #focus .inner .leading small {
+              font-size: 0.5em; }
+          #wrap #page #sidebar #focus .inner .sub {
+            font-family: "Times New Roman";
+            color: #a7a7a7;
+            margin-left: 43px; }
+            #wrap #page #sidebar #focus .inner .sub strong {
+              font-size: 1.3em; }
+            #wrap #page #sidebar #focus .inner .sub em {
+              text-transform: uppercase;
+              font-style: normal; }
+    #wrap #page #footer {
+      position: relative;
+      float: none;
+      clear: both;
+      background: #dbdbdb;
+      padding: 8px 0;
+      border-top: 1px solid #9b9b9b;
+      margin-right: -1px; }
+      #wrap #page #footer .inner {
+        border-top: 1px solid #cbcbcb;
+        border-bottom: 1px solid #cbcbcb;
+        overflow: hidden;
+        padding: 10px; }
+        #wrap #page #footer .inner h2 {
+          font-size: 1.1em;
+          color: #333333;
+          font-weight: bold;
+          font-family: Arial;
+          text-shadow: 1px 1px 0 #f4f4f4;
+          margin-bottom: 0.2em; }
+        #wrap #page #footer .inner .block-menu {
+          float: left;
+          margin: 0 10px 10px 40px; }
+          #wrap #page #footer .inner .block-menu ul {
+            padding-left: 0; }
+            #wrap #page #footer .inner .block-menu ul li {
+              list-style: none; }
+            #wrap #page #footer .inner .block-menu ul li:before {
+              content: "- "; }
+        #wrap #page #footer .inner #est {
+          position: absolute;
+          top: 35px;
+          right: 25px;
+          height: 100px;
+          text-align: right; }
+          #wrap #page #footer .inner #est big {
+            font-family: "Times New Roman";
+            font-size: 30px;
+            text-shadow: 1px 1px 0 #f4f4f4;
+            color: #999999; }
+    #wrap #page #header,
+    #wrap #page #footer,
+    #wrap #page .mission,
+    #wrap #page .breadcrumb,
+    #wrap #page .node {
+      clear: both; }
+
+/* Sidebars width
+ * --------------
+ * Changing the width of the sidebars is dead easy, just change the
+ * values below corresponding to the sidebar you want to modify.
+ * Make sure you keep negative values as negative values.
+ * For example, if I want to increase the width of the left sidebar
+ * to 300px, I would have to change each '190' to '300'. */
+/* left value. */
+.two-sidebars .center,
+.sidebar-first .center {
+  margin-left: 190px; }
+
+/* Left value & negative left value. */
+#sidebar-first {
+  width: 190px;
+  margin-right: -190px; }
+
+.two-sidebars .center,
+.sidebar-second .center {
+  margin-right: 308px; }
+
+/* Right value. */
+#sidebar-second {
+  width: 308px; }
+
+/* Columns Inner
+ * -------------
+ * You can change the padding inside the columns without changing the
+ * width of them by just usinbg the INNER div of each column */
+.inner {
+  padding: 0; }
+
+/* Navigation
+ * -----------------
+ * The navigation is loaded after the content, so we need to make space
+ * for it, equal to its height, so if you change the height of the navigation,
+ * remember to adapt the margin top of the content and sidebars. */
+#navigation {
+  float: left;
+  margin-left: 0;
+  margin-right: -100%;
+  padding: 0;
+  width: 100%;
+  height: 46px;
+  background: #b46558 url("../images/nav.png");
+  position: relative;
+  z-index: 25; }
+  #navigation ul {
+    padding-left: 42px; }
+    #navigation ul li {
+      list-style: none;
+      display: inline-block;
+      font-family: "Times New Roman";
+      font-size: 1.1em;
+      text-transform: uppercase;
+      background: url("../images/nav-seperator.png") no-repeat 0 50%;
+      padding-left: 1em; }
+      #navigation ul li a, #navigation ul li a:hover, #navigation ul li a:link, #navigation ul li a:visited {
+        color: white;
+        padding: 1em;
+        display: block; }
+
+/* Navigation height. */
+.with-navigation #content,
+.with-navigation #sidebar {
+  margin-top: 46px; }
+
+/* FONT. */
+body {
+  margin: 0;
+  /* Setting up font size, leading and font family
+   * http://www.markboulton.co.uk/journal/comments/five-simple-steps-to-better-typography */
+  font: 13px/1.5em "Helvetica Neue", helvetica, Arial, sans-serif;
+  letter-spacing: 0.03em; }
+
+/* Links */
+a:link, a:visited {
+  color: #0e4e8b;
+  text-decoration: none; }
+a:visited {
+  color: purple; }
+
+a:hover, a:active {
+  color: #0e4e8b;
+  text-decoration: underline; }
+
+#content-inner p a {
+  text-decoration: underline; }
+
+#footer a:link, #footer a:visited {
+  color: #333333; }
+
+/* Large button */
+.button {
+  border-top: 1px solid #cbcbcb;
+  border-bottom: 1px solid #cbcbcb;
+  padding: 4px 0;
+  margin: 20px 0 5px 0; }
+  .button a {
+    background: url("../images/button.png");
+    border: 1px solid;
+    border-radius: 5px;
+    color: #333333;
+    text-transform: uppercase;
+    font-family: "Times New Roman";
+    font-size: 1.15em;
+    padding: 0.4em 0;
+    width: 190px;
+    display: block;
+    margin: 0 auto;
+    text-align: center; }
+
+/* Small button */
+a.btn {
+  background: url("../images/button.png");
+  border: 1px solid #999999;
+  border-radius: 5px;
+  color: #333333;
+  text-transform: uppercase;
+  font-family: "Times New Roman";
+  font-size: 1.1em;
+  padding: 0.4em 0;
+  width: 160px;
+  text-align: center;
+  text-shadow: 1px 1px 0 white; }
+
+/* Titles. */
+#site-name {
+  font-size: 2.2em;
+  line-height: 1.3em;
+  font-weight: 300;
+  padding: 0 0 0.5em;
+  margin: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.4em;
+  color: gray;
+  font-family: "Times New Roman";
+  text-shadow: white 1px 1px 0; }
+
+h1 {
+  font-size: 2.3em;
+  font-weight: 300;
+  padding: 0 0 0.5em;
+  margin: 0.6em 0 0.2em 0;
+  background: url("../images/h1.png") bottom left no-repeat; }
+
+h2 {
+  font-size: 2.3em;
+  font-weight: 300;
+  margin: 0.6em 0 0.2em 0; }
+
+#content-inner h2 {
+  background: url("../images/h2.png") bottom left no-repeat; }
+
+.view-product-catalog img {
+  padding: 4px;
+  border: 1px solid #dedede; }
+
+h3 {
+  font-family: Arial;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin: 0.4em 0 0.2em; }
+
+#sidebar h3 {
+  margin-top: 1em; }
+
+.view-product-catalog h3 {
+  text-align: center;
+  clear: both;
+  margin: -0.5em 0 1.2em; }
+
+h4 {
+  font-size: 1.2em;
+  margin-bottom: 0.8em; }
+
+h5 {
+  font-size: 1.1em;
+  font-weight: 600;
+  margin-bottom: 0; }
+
+h6 {
+  font-size: 1em;
+  font-weight: bold; }
+
+/* Paragraph styles. */
+p {
+  margin: 1em 0;
+  line-height: 1.7em;
+  color: #333333;
+  font-size: 1.05em; }
+
+/* Region styles - style to match background */
+#sidebar p,
+#sidebar a,
+#sidebar a:link,
+#sidebar a:visited {
+  color: #878787;
+  text-shadow: white 1px 1px 0;
+  font-size: 1.1em; }
+
+#sidebar a {
+  letter-spacing: 0.04em; }
+
+#sidebar .view-locations a:before {
+  content: "- "; }
+
+/* Lists. */
+ul, ol {
+  margin-left: 0;
+  padding-left: 2em; }
+
+/* Images */
+#content img {
+  float: right;
+  margin-left: 1em;
+  margin-bottom: 1em; }
+#content .node-gallery img {
+  float: left; }
+#content .view-gallery img {
+  margin: 0 0.5em 1em 0;
+  float: left; }
+
+#content .view-product-catalog img {
+  float: none; }
+
+/* Tables. */
+table {
+  width: 99%; }
+
+tr.even td,
+tr.odd td {
+  padding: 10px 5px; }
+
+tr.odd {
+  background-color: white; }
+
+/* Views */
+.view-gallery .views-row {
+  overflow: auto; }
+.view-gallery ul {
+  list-style: none; }
+
+.view-product-catalog {
+  margin-top: 20px; }
+
+/* Code. */
+pre, code, tt {
+  font: 1em "andale mono", "lucida console", monospace;
+  line-height: 1.5; }
+
+pre {
+  background-color: #efefef;
+  display: block;
+  padding: 5px;
+  margin: 5px 0;
+  border: 1px solid #aaaaaa; }
+
+/* List styles. */
+ul {
+  list-style-type: disc; }
+  ul ul {
+    list-style-type: circle; }
+    ul ul ul {
+      list-style-type: square; }
+      ul ul ul ul {
+        list-style-type: circle; }
+
+ol {
+  list-style-type: decimal; }
+  ol ol {
+    list-style-type: lower-alpha; }
+    ol ol ol {
+      list-style-type: decimal; }
+
+/* Abbreviation. */
+abbr {
+  border-bottom: 1px dotted #666666;
+  cursor: help;
+  white-space: nowrap; }
+
+/* UI improvments. */
+#edit-title {
+  font-size: 24px;
+  width: 99%; }
+
+#system-themes-form img {
+  width: 100px; }
+
+.form-item .description {
+  font-style: italic;
+  line-height: 1.2em;
+  font-size: 0.8em;
+  margin-top: 5px;
+  color: #777777; }
+
+#edit-delete {
+  color: #cc0000; }
+
+/* Console, style from slate theme. */
+div.messages {
+  padding: 9px;
+  margin: 1em 0;
+  color: #003366;
+  background: #bbddff;
+  border: 1px solid #aaccee; }
+
+div.warning {
+  color: #884400;
+  background: #ffee66;
+  border-color: #eedd55; }
+
+div.error {
+  color: white;
+  background: #ee6633;
+  border-color: #dd5522; }
+
+div.status {
+  color: #336600;
+  background: #ccff88;
+  border-color: #bbee77; }
+
+/* Sections */
+/* Location - Hide node google map, used to load JS for block google map */
+.node-type-location #google-map {
+  display: none; }
+.node-type-location #block-gmap_location-0 {
+  padding-top: 10px; }

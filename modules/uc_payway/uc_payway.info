@@ -1,0 +1,9 @@
+; $Id$
+name = Westpac PayWay API
+description = "Integrates PayWay API hosted payment gateway."
+dependencies[] = uc_payment
+dependencies[] = uc_credit
+package = Ubercart - payment
+
+core = 7.x
+files[] = Qvalent_PayWayAPI.php

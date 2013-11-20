@@ -1,0 +1,200 @@
+<?php
+// $Id$
+
+/**
+ * Implements hook_uc_payment_gateway().
+ */
+function uc_payway_uc_payment_gateway() {
+  $gateways['payway'] = array(
+    'title' => t('PayWay'),
+    'description' => t('Process credit card payments using the PayWay API'),
+    'settings' => 'uc_payway_settings_form',
+    'credit' => 'uc_payway_charge',
+  );
+
+  return $gateways;
+}
+
+/**
+ * Returns the settings form for this payment gateway.
+ */
+function uc_payway_settings_form($form, &$form_state) {
+
+  $form['uc_payway_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('UC PayWay Payment Gateway settings'),
+  );
+
+  /*
+   $form['uc_payway_account_credentials'] = array(
+   '#type' => 'fieldset',
+   '#title' => t('PayWay Account Credentials'),
+   '#weight' => 0,
+   '#collapsible' => FALSE,
+   );
+   */
+
+  $form['uc_payway_settings']['uc_payway_merchant'] = array(
+    '#type' => 'textfield',
+    '#title' => t('PayWay Merchant ID'),
+    '#description' => t('Your PayWay Merchant ID. Use "TEST" for testing.'),
+    '#default_value' => variable_get('uc_payway_merchant', 'TEST'),
+  );
+
+  $form['uc_payway_settings']['uc_payway_username'] = array(
+    '#type' => 'textfield',
+    '#title' => t('PayWay Username'),
+    '#description' => t('The "Login Name" of the PayWay User you wish to process Ubercart payments with.'),
+    '#default_value' => variable_get('uc_payway_username', ''),
+  );
+
+  $form['uc_payway_settings']['uc_payway_password'] = array(
+    '#type' => 'password',
+    '#title' => t('PayWay Password'),
+    '#description' => t('The password of the PayWay User you wish to process Ubercart payments with.'),
+    '#default_value' => variable_get('uc_payway_password', ''),
+  );
+
+  $form['uc_payway_settings']['uc_payway_log_dir'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Path to log directory'),
+    '#description' => t('The path, relative to the root Drupal directory, to a directory used to store log files.'),
+    '#default_value' => variable_get('uc_payway_log_dir', '/sites/default/files/logs'),
+  );
+
+  $form['uc_payway_settings']['uc_payway_ca_file_path'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Path to Certificate Authority file'),
+    '#description' => t('The path, relative to the root Drupal directory, to the Certificate Authority file included with the "API Software" downloaded from the PayWay website.'),
+    '#default_value' => variable_get('uc_payway_ca_file_path', '/sites/all/modules/uc_payway/certs/cacerts.crt'),
+  );
+
+  $form['uc_payway_settings']['uc_payway_cert_file_path'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Path to Certificate file'),
+    '#description' => t('The path, relative to the root Drupal directory, to the Certificate generated from the PayWay website.'),
+    '#default_value' => variable_get('uc_payway_cert_file_path', '/sites/all/modules/uc_payway/certs/ccapi.pem'),
+  );
+
+  return $form;
+}
+
+/**
+ * Charge a credit card.
+ */
+function uc_payway_charge($order_id, $amount, $data) {
+  global $user;
+
+  // Initialise the PayWay API
+  $init  = 'logDirectory=' . variable_get('uc_payway_log_dir', '/sites/default/files/logs');
+  $init .= '&caFile=' .  variable_get('uc_payway_ca_file_path', '/sites/all/modules/uc_payway/certs/cacerts.crt');
+  $init .= '&certificateFile=' .  variable_get('uc_payway_cert_file_path', '/sites/all/modules/uc_payway/certs/ccapi.pem');
+
+  require_once DRUPAL_ROOT . '/' . drupal_get_path('module', 'uc_payway') . '/Qvalent_PayWayAPI.php';
+  $paywayAPI = new Qvalent_PayWayAPI();
+  $paywayAPI->initialise($init);
+
+  // Load the Ubercart order
+  $order = uc_order_load($order_id);
+
+  // Request type
+  $orderECI = "SSL";
+  $orderType = "capture";
+
+  // Credit card details
+  $cardNumber = $order->payment_details['cc_number'];
+  $cardVerificationNumber = $order->payment_details['cc_cvv'];
+  $cardExpiryMonth = (strlen($order->payment_details['cc_exp_month']) == 1) ? str_pad($order->payment_details['cc_exp_month'], 2, '0', STR_PAD_LEFT) : $order->payment_details['cc_exp_month'];
+  $cardExpiryYear = substr((string) $order->payment_details['cc_exp_year'], 2);
+
+  // Amount to charge
+  $cardCurrency = "AUD";
+  $orderAmountCents = number_format((float) $amount * 100, 0, '.', '');
+  $orderAmountDollars = number_format((float) $amount);
+
+  // PayWay details
+  $customerUsername = variable_get('uc_payway_username', '');
+  $customerPassword = variable_get('uc_payway_password', '');
+  $customerMerchant = variable_get('uc_payway_merchant', 'TEST');
+
+  // Unique order ID
+  $orderNumber = $order_id;
+
+  // PayWay parameters
+  $requestParameters = array();
+  $requestParameters['order.type'] = $orderType;
+  $requestParameters['customer.username'] = $customerUsername;
+  $requestParameters['customer.password'] = $customerPassword;
+  $requestParameters['customer.merchant'] = $customerMerchant;
+  $requestParameters['customer.orderNumber'] = $orderNumber;
+  $requestParameters['customer.captureOrderNumber'] = $orderNumber;
+  $requestParameters['card.PAN'] = $cardNumber;
+  $requestParameters['card.CVN'] = $cardVerificationNumber;
+  $requestParameters['card.expiryYear'] = $cardExpiryYear;
+  $requestParameters['card.expiryMonth'] = $cardExpiryMonth;
+  $requestParameters['card.currency'] = $cardCurrency;
+  $requestParameters['order.amount'] = $orderAmountCents;
+  $requestParameters['order.ECI'] = $orderECI;
+
+  // Build and send the request
+  $request = $paywayAPI->formatRequestParameters($requestParameters);
+  $response = $paywayAPI->processCreditCard($request);
+
+  // Check we got a response
+  if (strlen($response) == 0) {
+    // Supply some values which can be logged
+    $summaryCode = -1;
+    $responseCode = -1;
+    $description = 'No response from Gateway.';
+  }
+  else {
+    // Parse the response
+    $responseParameters = $paywayAPI->parseResponseParameters($response);
+
+    print_r($responseParameters);
+
+    // Get the required parameters from the response
+    $summaryCode = $responseParameters['response.summaryCode'];
+    $responseCode = $responseParameters['response.responseCode'];
+    $description = $responseParameters['response.text'];
+    $receiptNo = 'test'; //$responseParameters['response.receiptNo'];
+  }
+
+  /*
+   $settlementDate = $responseParameters['response.settlementDate'];
+   $creditGroup = $responseParameters['response.creditGroup'];
+   $cardSchemeName = $responseParameters['response.cardSchemeName'];
+   */
+
+  // Successful requests will have a summary code = 0
+  if ($summaryCode == 0) {
+    $message = t('Credit card charged: !amount', array('!amount' => uc_currency_format($orderAmountDollars)))
+              . '<br />' . t('PayWay receipt no.: @receipt', array('@receipt' => $receiptNo));
+
+    $result = array(
+      'success' => TRUE,
+      'comment' => t('PayWay receipt no.: @receipt<br/>Approval code: @code', array('@receipt' => $receiptNo, '@code' => $responseCode)),
+      'message' => t('PayWay receipt no.: @receipt<br/>Approval code: @code', array('@receipt' => $receiptNo, '@code' => $responseCode)),
+      'data' => array('Receipt no.' => $receiptNo),
+      'uid' => $user->uid,
+    );
+  }
+  // All failed requests will have a summary code != 0
+  else {
+    $message = t('Credit card declined: !amount', array('!amount' => uc_currency_format($orderAmountDollars)));
+
+    $result = array(
+      'success' => FALSE,
+      'comment' => t('Credit card payment declined: @text', array('@text' => $description)),
+      'message' => t('Credit card payment declined: @text', array('@text' => $description)),
+      'uid' => $user->uid,
+    );
+  }
+
+  $message .= '<br />' . t('Gateway said: @responseCode - @response', array('@responseCode' => $responseCode, '@response' => $description));
+
+  // Attach message a comment to the order
+  uc_order_comment_save($order_id, $user->uid, $message, 'admin');
+
+  return $result;
+}

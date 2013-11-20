@@ -1,0 +1,37 @@
+name = Callington Mill
+description = Callington Mill theme based on Basic
+screenshot = images/screenshot.gif
+core = "7.x"
+project = "basic"
+engine = phptemplate
+
+regions[page_top] = Page top
+regions[header] = Header
+regions[highlight] = Highlight
+regions[help] = Help
+regions[content] = Content
+regions[content_bottom] = Content bottom
+regions[sidebar_first] = First sidebar
+regions[sidebar_second] = Second sidebar
+regions[footer] = Footer
+regions[page_bottom] = Page bottom
+
+features[] = logo
+features[] = name
+features[] = slogan
+features[] = node_user_picture
+features[] = comment_user_picture
+features[] = search
+features[] = favicon
+features[] = main_menu
+features[] = secondary_menu
+
+scripts[] = js/script.js
+
+stylesheets[all][] = css/default.css
+stylesheets[all][] = css/layout.css
+stylesheets[all][] = css/style.css
+stylesheets[print][] = css/print.css
+
+settings[basic_tabs] = 1
+settings[basic_breadcrumb_separator] = »

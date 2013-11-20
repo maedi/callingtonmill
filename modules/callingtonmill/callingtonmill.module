@@ -1,0 +1,26 @@
+<?php
+
+//drupal_add_js(drupal_get_path('module', 'callingtonmill') .'/callingtonmill.js');
+drupal_add_css(drupal_get_path('module', 'callingtonmill') .'/callingtonmill.css');
+
+function callingtonmill_form_alter(&$form, &$form_state, $form_id) {
+
+  if($form_id == 'booking_node_form') {
+  
+    //print_r($form);
+  
+    //dpm($form);  
+
+    $form['access'] = FALSE;
+    $form['path'] = FALSE;
+    $form['revision_information'] = FALSE;
+    $form['comment_settings'] = FALSE;
+    $form['locations'] = FALSE;
+    $form['author'] = FALSE;
+    $form['options'] = FALSE;
+  
+    $form['actions']['submit']['#value'] = 'Send Email';
+  
+  }
+  
+}
