@@ -32,6 +32,17 @@ body {
         bottom: 0;
         left: 0;
         right: 0; }
+      #wrap #page #header #user {
+        position: absolute;
+        top: 0;
+        right: 10px;
+        z-index: 8;
+        background: #272727;
+        padding: 5px 10px;
+        border-radius: 0 0 5px 5px; }
+        #wrap #page #header #user a,
+        #wrap #page #header #user a:visited {
+          color: white; }
     #wrap #page #main {
       background: url("../images/footer-shadow.png") bottom left repeat-x; }
     #wrap #page #content {

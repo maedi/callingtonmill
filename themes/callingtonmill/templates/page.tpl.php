@@ -10,6 +10,14 @@
       <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home">
 	    <img id="logo" src="/<?php print path_to_theme() ?>/images/logo.png">
 	  </a>
+	  
+	  <div id="user">
+  	    <?php if (user_is_logged_in()) { ?>
+  	      <a href="/user">My Account</a>
+	    <?php } else { ?>
+		  <a href="/user">Login</a>
+	    <?php } ?>
+	  </div>
 
       <?php if ($page['header']): ?>
         <div id="slideshow">
@@ -41,7 +49,6 @@
                 global $user;
                 if (in_array('administrator', array_values($user->roles)) || in_array('staff', array_values($user->roles))) {
                   if(arg(2) != 'edit' && isset($node)) {
-              	  
 			        $destination = drupal_get_destination();
 			        $destination = $destination['destination'];              
                   ?>
